@@ -1,1182 +1,1166 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2685.7">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bavly Dog Walking</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pine: #1F3A2E;
+    --pine-light: #2C4F3D;
+    --paper: #F6F1E4;
+    --paper-dim: #EDE6D2;
+    --ink: #1B2B22;
+    --mustard: #D9A441;
+    --rust: #B5502F;
+    --line: rgba(27,43,34,0.14);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{
+    font-family:'Baloo 2', sans-serif;
+    color:var(--pine);
+    margin:0;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky; top:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 6vw;
+    background:rgba(246,241,228,0.88);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .brand{
+    display:flex; align-items:center; gap:10px;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:1.25rem;
+    color:var(--pine);
+  }
+  .brand-mark{
+    width:34px; height:34px;
+    border-radius:50%;
+    background:var(--pine);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+  .brand-mark svg{width:19px; height:19px;}
+  nav a.navlink{
+    color:var(--ink); text-decoration:none; font-weight:500;
+    margin-left:28px; font-size:0.95rem;
+    opacity:0.75;
+  }
+  nav a.navlink:hover{opacity:1;}
+  .nav-links{display:flex; align-items:center;}
+  .nav-cta{
+    margin-left:28px;
+    background:var(--rust); color:var(--paper);
+    padding:9px 20px; border-radius:999px;
+    font-weight:600; font-size:0.9rem;
+    text-decoration:none;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    padding:9vh 6vw 14vh;
+    overflow:hidden;
+  }
+  .hero-inner{
+    max-width:640px;
+    position:relative; z-index:2;
+  }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:0.82rem; letter-spacing:0.06em; text-transform:uppercase;
+    color:var(--rust); font-weight:600;
+    margin-bottom:18px;
+  }
+  .eyebrow::before{
+    content:''; width:22px; height:2px; background:var(--rust); display:inline-block;
+  }
+  .hero h1{
+    font-size:clamp(2.6rem, 6vw, 4.2rem);
+    line-height:1.03;
+    font-weight:700;
+  }
+  .hero h1 span{color:var(--rust);}
+  .hero p.lede{
+    margin-top:22px;
+    font-size:1.15rem;
+    line-height:1.6;
+    max-width:480px;
+    color:var(--ink);
+    opacity:0.85;
+  }
+  .hero-ctas{margin-top:34px; display:flex; gap:16px; flex-wrap:wrap;}
+  .btn-primary{
+    background:var(--pine); color:var(--paper);
+    padding:15px 28px; border-radius:999px;
+    font-weight:600; font-size:1rem;
+    text-decoration:none; border:none; cursor:pointer;
+    display:inline-flex; align-items:center; gap:8px;
+    transition:transform 0.15s ease, background 0.15s ease;
+  }
+  .btn-primary:hover{background:var(--pine-light); transform:translateY(-1px);}
+  .btn-ghost{
+    padding:15px 24px; border-radius:999px;
+    font-weight:600; font-size:1rem;
+    text-decoration:none; color:var(--pine);
+    border:1.5px solid var(--line);
+    transition:border-color 0.15s ease;
+  }
+  .btn-ghost:hover{border-color:var(--pine);}
+
+  .hero-route{
+    position:absolute;
+    right:-4%; top:0;
+    width:52%; height:100%;
+    z-index:1;
+  }
+  .hero-route svg{width:100%; height:100%;}
+  .route-path{
+    fill:none;
+    stroke:var(--pine);
+    stroke-width:2.5;
+    stroke-linecap:round;
+    stroke-dasharray:6 10;
+    opacity:0.35;
+  }
+  .paw{
+    animation: wag 3.4s ease-in-out infinite;
+    transform-origin:center;
+  }
+  @keyframes wag{
+    0%,100%{transform:rotate(-4deg) translateY(0px);}
+    50%{transform:rotate(4deg) translateY(-6px);}
+  }
+
+  /* ---------- TRUST STRIP ---------- */
+  .trust{
+    display:flex; flex-wrap:wrap; gap:0;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+  }
+  .trust div{
+    flex:1 1 200px;
+    padding:22px 6vw;
+    text-align:center;
+    border-right:1px solid var(--line);
+  }
+  .trust div:last-child{border-right:none;}
+  .trust strong{
+    display:block; font-family:'Baloo 2'; font-size:1.5rem; color:var(--pine);
+  }
+  .trust span{font-size:0.85rem; opacity:0.7;}
+
+  /* ---------- SECTION shared ---------- */
+  section{padding:10vh 6vw;}
+  .section-head{max-width:560px; margin-bottom:6vh;}
+  .section-head .eyebrow{margin-bottom:14px;}
+  .section-head h2{font-size:clamp(2rem, 3.6vw, 2.8rem); line-height:1.1;}
+  .section-head p{margin-top:14px; opacity:0.75; font-size:1.05rem; line-height:1.55;}
+
+  /* ---------- SERVICES ---------- */
+  .services{background:var(--pine); color:var(--paper);}
+  .services .eyebrow{color:var(--mustard);}
+  .services .eyebrow::before{background:var(--mustard);}
+  .services h2{color:var(--paper);}
+  .card-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(230px,1fr));
+    gap:22px;
+  }
+  .service-card{
+    background:rgba(246,241,228,0.06);
+    border:1px solid rgba(246,241,228,0.16);
+    border-radius:18px;
+    padding:28px 24px;
+    transition:transform 0.2s ease, background 0.2s ease;
+  }
+  .service-card:hover{
+    transform:translateY(-4px);
+    background:rgba(246,241,228,0.1);
+  }
+  .service-card .icon{
+    width:46px; height:46px; border-radius:12px;
+    background:var(--mustard);
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom:18px;
+  }
+  .service-card .icon svg{width:24px; height:24px; stroke:var(--pine);}
+  .service-card h3{color:var(--paper); font-size:1.15rem;}
+  .service-card .price{
+    color:var(--mustard); font-family:'Baloo 2'; font-weight:600;
+    font-size:1.05rem; margin:10px 0 12px;
+  }
+  .service-card p{
+    font-size:0.92rem; line-height:1.55;
+    color:rgba(246,241,228,0.75);
+    margin:0;
+  }
+
+  /* ---------- HOW IT WORKS (route timeline) ---------- */
+  .route-steps{
+    position:relative;
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:28px;
+  }
+  .route-steps::before{
+    content:'';
+    position:absolute;
+    top:23px; left:5%; right:5%;
+    height:2px;
+    background-image:linear-gradient(to right, var(--line) 0 8px, transparent 8px 16px);
+    background-size:16px 2px;
+    background-repeat:repeat-x;
+  }
+  .step{position:relative; padding-top:64px;}
+  .step .num{
+    position:absolute; top:0; left:0;
+    width:46px; height:46px; border-radius:50%;
+    background:var(--paper);
+    border:2px solid var(--pine);
+    color:var(--pine);
+    font-family:'Baloo 2'; font-weight:700; font-size:1.15rem;
+    display:flex; align-items:center; justify-content:center;
+    z-index:2;
+  }
+  .step h3{font-size:1.08rem; margin-bottom:8px;}
+  .step p{font-size:0.92rem; line-height:1.55; opacity:0.75; margin:0;}
+  @media (max-width:820px){
+    .route-steps{grid-template-columns:1fr 1fr; row-gap:48px;}
+    .route-steps::before{display:none;}
+  }
+
+  /* ---------- BOOKING ---------- */
+  .booking{
+    background:var(--paper-dim);
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+  }
+  .booking-wrap{
+    display:grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap:60px;
+    align-items:start;
+  }
+  @media (max-width:900px){.booking-wrap{grid-template-columns:1fr;}}
+
+  .booking-note{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:26px;
+    margin-top:28px;
+  }
+  .booking-note strong{color:var(--pine); font-family:'Baloo 2';}
+  .booking-note p{margin:8px 0 0; font-size:0.9rem; line-height:1.5; opacity:0.75;}
+
+  form{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:22px;
+    padding:36px;
+  }
+  .form-row{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
+  @media (max-width:520px){.form-row{grid-template-columns:1fr;}}
+  .field{margin-bottom:20px;}
+  .field label{
+    display:block; font-size:0.85rem; font-weight:600;
+    color:var(--pine); margin-bottom:7px;
+  }
+  .field input, .field select{
+    width:100%; padding:12px 14px;
+    border:1.5px solid var(--line);
+    border-radius:11px;
+    font-family:'Work Sans', sans-serif;
+    font-size:0.95rem;
+    background:var(--paper);
+    color:var(--ink);
+  }
+  .field input:focus, .field select:focus{
+    outline:none; border-color:var(--pine);
+  }
+  .size-toggle{display:flex; gap:10px;}
+  .size-toggle input{display:none;}
+  .size-toggle label{
+    flex:1; text-align:center;
+    padding:10px 6px;
+    border:1.5px solid var(--line);
+    border-radius:11px;
+    font-size:0.85rem; font-weight:600;
+    cursor:pointer; color:var(--ink); opacity:0.6;
+    transition:all 0.15s ease;
+  }
+  .size-toggle input:checked + label{
+    border-color:var(--pine); background:var(--pine); color:var(--paper); opacity:1;
+  }
+  .submit-btn{
+    width:100%; background:var(--rust); color:var(--paper);
+    border:none; padding:16px; border-radius:12px;
+    font-family:'Work Sans'; font-weight:600; font-size:1rem;
+    cursor:pointer; margin-top:6px;
+    transition:background 0.15s ease;
+  }
+  .submit-btn:hover{background:#9C4527;}
+  .confirm{
+    display:none;
+    background:var(--pine); color:var(--paper);
+    border-radius:16px; padding:26px; margin-top:20px;
+    font-size:0.95rem; line-height:1.6;
+  }
+  .confirm.show{display:block;}
+  .confirm strong{color:var(--mustard); font-family:'Baloo 2'; display:block; margin-bottom:6px; font-size:1.05rem;}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    padding:6vh 6vw 5vh;
+    display:flex; justify-content:space-between; align-items:center;
+    flex-wrap:wrap; gap:16px;
+  }
+  footer .brand{font-size:1.05rem;}
+  footer .foot-links{display:flex; gap:24px; font-size:0.88rem;}
+  footer .foot-links a{color:var(--ink); opacity:0.65; text-decoration:none;}
+  footer .foot-links a:hover{opacity:1;}
+  footer .copy{font-size:0.8rem; opacity:0.5; width:100%; margin-top:14px;}
+
+  /* ---------- TAKEN SLOT ERROR ---------- */
+  .slot-error{
+    display:none;
+    background:rgba(181,80,47,0.1);
+    border:1.5px solid var(--rust);
+    color:var(--rust);
+    border-radius:11px;
+    padding:13px 16px;
+    font-size:0.9rem;
+    font-weight:600;
+    margin-bottom:18px;
+  }
+  .slot-error.show{display:block;}
+  .submit-btn[disabled]{opacity:0.6; cursor:default;}
+
+  /* ---------- CONFIRMATION PAGE ---------- */
+  #pageConfirm{display:none;}
+  .confirm-page{
+    min-height:100vh;
+    display:flex; align-items:center; justify-content:center;
+    padding:8vh 6vw;
+    background:var(--pine);
+  }
+  .confirm-card{
+    max-width:560px; width:100%;
+    background:var(--paper);
+    border-radius:26px;
+    padding:48px 44px;
+    text-align:center;
+  }
+  .confirm-card .stamp{
+    width:56px; height:56px; border-radius:50%;
+    background:var(--mustard);
+    display:flex; align-items:center; justify-content:center;
+    margin:0 auto 22px;
+  }
+  .confirm-card .stamp svg{width:28px; height:28px; stroke:var(--pine);}
+  .confirm-card .eyebrow{justify-content:center;}
+  .confirm-card h2{font-size:1.9rem; margin-bottom:6px;}
+  .confirm-card .sub{opacity:0.7; font-size:0.98rem; margin-bottom:34px;}
+
+  .schedule{
+    display:flex; align-items:center; justify-content:center;
+    gap:0; margin-bottom:30px;
+  }
+  .schedule .point{flex:1; text-align:center;}
+  .schedule .point .label{
+    font-size:0.78rem; text-transform:uppercase; letter-spacing:0.06em;
+    color:var(--rust); font-weight:700; margin-bottom:8px;
+  }
+  .schedule .point .time{
+    font-family:'Baloo 2'; font-weight:700; font-size:1.7rem; color:var(--pine);
+  }
+  .schedule .point .day{font-size:0.82rem; opacity:0.6; margin-top:4px;}
+  .schedule .track{
+    flex:1.4; position:relative; height:2px;
+    background-image:linear-gradient(to right, var(--line) 0 8px, transparent 8px 16px);
+    background-size:16px 2px; background-repeat:repeat-x;
+    margin:0 6px; top:-10px;
+  }
+  .schedule .track::after{
+    content:'🐾'; position:absolute; left:50%; top:-11px; transform:translateX(-50%);
+    font-size:0.9rem;
+  }
+
+  .confirm-details{
+    text-align:left;
+    background:var(--paper-dim);
+    border-radius:16px;
+    padding:20px 24px;
+    margin-bottom:30px;
+  }
+  .confirm-details .row{
+    display:flex; justify-content:space-between;
+    padding:9px 0; font-size:0.92rem;
+    border-bottom:1px solid var(--line);
+  }
+  .confirm-details .row:last-child{border-bottom:none;}
+  .confirm-details .row span:first-child{opacity:0.6;}
+  .confirm-details .row span:last-child{font-weight:600; color:var(--pine);}
+
+  .confirm-actions{display:flex; gap:14px; justify-content:center; flex-wrap:wrap;}
+
+  /* ---------- LOCATION GATE ---------- */
+  .location-gate{
+    max-width:560px; margin:0 auto;
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:22px;
+    padding:40px 36px;
+    text-align:center;
+  }
+  .location-gate .gate-icon{
+    width:52px; height:52px; border-radius:50%;
+    background:var(--pine);
+    display:flex; align-items:center; justify-content:center;
+    margin:0 auto 20px;
+  }
+  .location-gate .gate-icon svg{width:26px; height:26px; stroke:var(--paper);}
+  #gateMessage{
+    font-size:1.02rem; line-height:1.6; opacity:0.85; margin:0 0 22px;
+  }
+  .postcode-check{
+    display:flex; gap:10px; align-items:stretch; justify-content:center;
+    max-width:390px; margin:0 auto;
+  }
+  .postcode-check input{
+    min-width:0; flex:1;
+    padding:12px 14px; border-radius:11px; border:1.5px solid var(--line);
+    font-family:'Work Sans', sans-serif; font-size:1rem;
+    text-transform:uppercase; background:var(--paper); color:var(--ink);
+  }
+  .postcode-check input:focus{outline:none; border-color:var(--pine);}
+  .postcode-check .btn-primary{padding:12px 20px; white-space:nowrap;}
+  .gate-error{
+    display:none; max-width:390px; margin:14px auto 0;
+    background:rgba(181,80,47,0.1); border:1.5px solid var(--rust);
+    color:var(--rust); border-radius:11px; padding:11px 14px;
+    font-size:0.88rem; font-weight:600; line-height:1.45;
+  }
+  .gate-error.show{display:block;}
+  .service-area-note{margin:15px 0 0; font-size:0.82rem; opacity:0.6;}
+  @media (max-width:460px){
+    .postcode-check{flex-direction:column;}
+    .postcode-check .btn-primary{justify-content:center;}
+  }
+
+  /* ---------- CALENDAR WIDGET ---------- */
+  .calendar-widget{
+    border:1.5px solid var(--line);
+    border-radius:14px;
+    padding:16px;
+    background:var(--paper);
+  }
+  .cal-header{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom:12px;
+  }
+  .cal-header span{
+    font-family:'Baloo 2'; font-weight:600; color:var(--pine); font-size:0.98rem;
+  }
+  .cal-header button{
+    width:30px; height:30px; border-radius:50%;
+    border:1.5px solid var(--line); background:var(--paper);
+    color:var(--pine); font-size:1.1rem; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .cal-header button:hover{border-color:var(--pine);}
+  .cal-weekdays{
+    display:grid; grid-template-columns:repeat(7,1fr);
+    text-align:center; font-size:0.72rem; font-weight:600;
+    color:var(--ink); opacity:0.5; margin-bottom:6px;
+  }
+  .cal-grid{
+    display:grid; grid-template-columns:repeat(7,1fr);
+    gap:4px;
+  }
+  .cal-day{
+    aspect-ratio:1; display:flex; align-items:center; justify-content:center;
+    border-radius:9px; font-size:0.88rem; cursor:pointer;
+    border:1.5px solid transparent;
+    color:var(--ink);
+  }
+  .cal-day.empty{visibility:hidden; cursor:default;}
+  .cal-day.unavailable{
+    color:var(--ink); opacity:0.28; cursor:not-allowed;
+    text-decoration:line-through;
+  }
+  .cal-day.past{opacity:0.2; cursor:not-allowed; text-decoration:none;}
+  .cal-day.available:hover{border-color:var(--pine);}
+  .cal-day.selected{
+    background:var(--pine); color:var(--paper); font-weight:700;
+  }
+  .cal-legend{
+    display:flex; align-items:center; gap:6px; margin-top:12px;
+    font-size:0.78rem; opacity:0.7;
+  }
+  .cal-legend .dot{
+    width:9px; height:9px; border-radius:50%; display:inline-block; margin-left:6px;
+  }
+  .cal-legend .dot:first-child{margin-left:0;}
+  .cal-legend .dot.available{background:var(--pine);}
+  .cal-legend .dot.unavailable{background:var(--ink); opacity:0.3;}
+</style>
 </head>
 <body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="en"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1">&lt;meta charset="UTF-8"&gt;</p>
-<p class="p1">&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
-<p class="p1">&lt;title&gt;Bavly Dog Walking&lt;/title&gt;</p>
-<p class="p1">&lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;</p>
-<p class="p1">&lt;link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&amp;family=Work+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"&gt;</p>
-<p class="p1">&lt;style&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>:root{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--pine: #1F3A2E;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--pine-light: #2C4F3D;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--paper: #F6F1E4;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--paper-dim: #EDE6D2;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--ink: #1B2B22;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--mustard: #D9A441;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--rust: #B5502F;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--line: rgba(27,43,34,0.14);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>*{box-sizing:border-box;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>html{scroll-behavior:smooth;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>body{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin:0;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background:var(--paper);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color:var(--ink);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-family:'Work Sans', sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>-webkit-font-smoothing:antialiased;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>h1,h2,h3,.display{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-family:'Baloo 2', sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color:var(--pine);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin:0;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>@media (prefers-reduced-motion: reduce){</p>
-<p class="p1"><span class="Apple-converted-space">    </span>*{animation:none !important; transition:none !important;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* ---------- NAV ---------- */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>nav{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position:sticky; top:0; z-index:50;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display:flex; align-items:center; justify-content:space-between;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding:18px 6vw;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background:rgba(246,241,228,0.88);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>backdrop-filter:blur(8px);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-bottom:1px solid var(--line);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.brand{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display:flex; align-items:center; gap:10px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-family:'Baloo 2', sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-weight:700;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size:1.25rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color:var(--pine);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.brand-mark{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>width:34px; height:34px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius:50%;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background:var(--pine);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display:flex; align-items:center; justify-content:center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>flex-shrink:0;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.brand-mark svg{width:19px; height:19px;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>nav a.navlink{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color:var(--ink); text-decoration:none; font-weight:500;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin-left:28px; font-size:0.95rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>opacity:0.75;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>nav a.navlink:hover{opacity:1;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.nav-links{display:flex; align-items:center;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.nav-cta{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin-left:28px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background:var(--rust); color:var(--paper);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding:9px 20px; border-radius:999px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-weight:600; font-size:0.9rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>text-decoration:none;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* ---------- HERO ---------- */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.hero{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position:relative;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding:9vh 6vw 14vh;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>overflow:hidden;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.hero-inner{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>max-width:640px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position:relative; z-index:2;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.eyebrow{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display:inline-flex; align-items:center; gap:8px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size:0.82rem; letter-spacing:0.06em; text-transform:uppercase;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color:var(--rust); font-weight:600;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin-bottom:18px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.eyebrow::before{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>content:''; width:22px; height:2px; background:var(--rust); display:inline-block;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.hero h1{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size:clamp(2.6rem, 6vw, 4.2rem);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>line-height:1.03;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-weight:700;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.hero h1 span{color:var(--rust);}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.hero p.lede{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin-top:22px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size:1.15rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>line-height:1.6;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>max-width:480px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color:var(--ink);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>opacity:0.85;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.hero-ctas{margin-top:34px; display:flex; gap:16px; flex-wrap:wrap;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.btn-primary{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background:var(--pine); color:var(--paper);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding:15px 28px; border-radius:999px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-weight:600; font-size:1rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>text-decoration:none; border:none; cursor:pointer;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display:inline-flex; align-items:center; gap:8px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transition:transform 0.15s ease, background 0.15s ease;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.btn-primary:hover{background:var(--pine-light); transform:translateY(-1px);}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.btn-ghost{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding:15px 24px; border-radius:999px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-weight:600; font-size:1rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>text-decoration:none; color:var(--pine);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border:1.5px solid var(--line);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transition:border-color 0.15s ease;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.btn-ghost:hover{border-color:var(--pine);}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.hero-route{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position:absolute;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>right:-4%; top:0;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>width:52%; height:100%;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>z-index:1;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.hero-route svg{width:100%; height:100%;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.route-path{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>fill:none;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>stroke:var(--pine);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>stroke-width:2.5;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>stroke-linecap:round;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>stroke-dasharray:6 10;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>opacity:0.35;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.paw{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>animation: wag 3.4s ease-in-out infinite;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transform-origin:center;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>@keyframes wag{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>0%,100%{transform:rotate(-4deg) translateY(0px);}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>50%{transform:rotate(4deg) translateY(-6px);}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* ---------- TRUST STRIP ---------- */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.trust{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display:flex; flex-wrap:wrap; gap:0;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-top:1px solid var(--line);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-bottom:1px solid var(--line);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.trust div{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>flex:1 1 200px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding:22px 6vw;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>text-align:center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-right:1px solid var(--line);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.trust div:last-child{border-right:none;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.trust strong{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display:block; font-family:'Baloo 2'; font-size:1.5rem; color:var(--pine);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.trust span{font-size:0.85rem; opacity:0.7;}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* ---------- SECTION shared ---------- */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>section{padding:10vh 6vw;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.section-head{max-width:560px; margin-bottom:6vh;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.section-head .eyebrow{margin-bottom:14px;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.section-head h2{font-size:clamp(2rem, 3.6vw, 2.8rem); line-height:1.1;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.section-head p{margin-top:14px; opacity:0.75; font-size:1.05rem; line-height:1.55;}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* ---------- SERVICES ---------- */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.services{background:var(--pine); color:var(--paper);}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.services .eyebrow{color:var(--mustard);}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.services .eyebrow::before{background:var(--mustard);}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.services h2{color:var(--paper);}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.card-grid{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display:grid;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>grid-template-columns:repeat(auto-fit, minmax(230px,1fr));</p>
-<p class="p1"><span class="Apple-converted-space">    </span>gap:22px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.service-card{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background:rgba(246,241,228,0.06);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border:1px solid rgba(246,241,228,0.16);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius:18px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding:28px 24px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transition:transform 0.2s ease, background 0.2s ease;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.service-card:hover{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transform:translateY(-4px);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background:rgba(246,241,228,0.1);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.service-card .icon{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>width:46px; height:46px; border-radius:12px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background:var(--mustard);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display:flex; align-items:center; justify-content:center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin-bottom:18px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.service-card .icon svg{width:24px; height:24px; stroke:var(--pine);}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.service-card h3{color:var(--paper); font-size:1.15rem;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.service-card .price{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color:var(--mustard); font-family:'Baloo 2'; font-weight:600;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size:1.05rem; margin:10px 0 12px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.service-card p{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size:0.92rem; line-height:1.55;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color:rgba(246,241,228,0.75);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin:0;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* ---------- HOW IT WORKS (route timeline) ---------- */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.route-steps{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position:relative;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display:grid;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>grid-template-columns:repeat(4, 1fr);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>gap:28px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.route-steps::before{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>content:'';</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position:absolute;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>top:23px; left:5%; right:5%;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>height:2px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background-image:linear-gradient(to right, var(--line) 0 8px, transparent 8px 16px);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background-size:16px 2px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background-repeat:repeat-x;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.step{position:relative; padding-top:64px;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.step .num{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position:absolute; top:0; left:0;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>width:46px; height:46px; border-radius:50%;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background:var(--paper);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border:2px solid var(--pine);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color:var(--pine);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-family:'Baloo 2'; font-weight:700; font-size:1.15rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display:flex; align-items:center; justify-content:center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>z-index:2;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.step h3{font-size:1.08rem; margin-bottom:8px;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.step p{font-size:0.92rem; line-height:1.55; opacity:0.75; margin:0;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>@media (max-width:820px){</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.route-steps{grid-template-columns:1fr 1fr; row-gap:48px;}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.route-steps::before{display:none;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* ---------- BOOKING ---------- */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.booking{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background:var(--paper-dim);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-top:1px solid var(--line);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-bottom:1px solid var(--line);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.booking-wrap{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display:grid;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>grid-template-columns: 0.9fr 1.1fr;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>gap:60px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>align-items:start;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>@media (max-width:900px){.booking-wrap{grid-template-columns:1fr;}}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.booking-note{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background:var(--paper);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border:1px solid var(--line);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius:18px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding:26px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin-top:28px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.booking-note strong{color:var(--pine); font-family:'Baloo 2';}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.booking-note p{margin:8px 0 0; font-size:0.9rem; line-height:1.5; opacity:0.75;}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>form{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background:var(--paper);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border:1px solid var(--line);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius:22px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding:36px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.form-row{display:grid; grid-template-columns:1fr 1fr; gap:18px;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>@media (max-width:520px){.form-row{grid-template-columns:1fr;}}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.field{margin-bottom:20px;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.field label{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display:block; font-size:0.85rem; font-weight:600;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color:var(--pine); margin-bottom:7px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.field input, .field select{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>width:100%; padding:12px 14px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border:1.5px solid var(--line);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius:11px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-family:'Work Sans', sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size:0.95rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background:var(--paper);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color:var(--ink);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.field input:focus, .field select:focus{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>outline:none; border-color:var(--pine);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.size-toggle{display:flex; gap:10px;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.size-toggle input{display:none;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.size-toggle label{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>flex:1; text-align:center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding:10px 6px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border:1.5px solid var(--line);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius:11px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size:0.85rem; font-weight:600;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>cursor:pointer; color:var(--ink); opacity:0.6;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transition:all 0.15s ease;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.size-toggle input:checked + label{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-color:var(--pine); background:var(--pine); color:var(--paper); opacity:1;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.submit-btn{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>width:100%; background:var(--rust); color:var(--paper);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border:none; padding:16px; border-radius:12px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-family:'Work Sans'; font-weight:600; font-size:1rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>cursor:pointer; margin-top:6px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transition:background 0.15s ease;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.submit-btn:hover{background:#9C4527;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.confirm{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display:none;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background:var(--pine); color:var(--paper);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius:16px; padding:26px; margin-top:20px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size:0.95rem; line-height:1.6;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.confirm.show{display:block;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.confirm strong{color:var(--mustard); font-family:'Baloo 2'; display:block; margin-bottom:6px; font-size:1.05rem;}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* ---------- FOOTER ---------- */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>footer{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding:6vh 6vw 5vh;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display:flex; justify-content:space-between; align-items:center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>flex-wrap:wrap; gap:16px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>footer .brand{font-size:1.05rem;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>footer .foot-links{display:flex; gap:24px; font-size:0.88rem;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>footer .foot-links a{color:var(--ink); opacity:0.65; text-decoration:none;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>footer .foot-links a:hover{opacity:1;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>footer .copy{font-size:0.8rem; opacity:0.5; width:100%; margin-top:14px;}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* ---------- TAKEN SLOT ERROR ---------- */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.slot-error{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display:none;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background:rgba(181,80,47,0.1);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border:1.5px solid var(--rust);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color:var(--rust);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius:11px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding:13px 16px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size:0.9rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-weight:600;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin-bottom:18px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.slot-error.show{display:block;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.submit-btn[disabled]{opacity:0.6; cursor:default;}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* ---------- CONFIRMATION PAGE ---------- */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>#pageConfirm{display:none;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.confirm-page{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>min-height:100vh;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display:flex; align-items:center; justify-content:center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding:8vh 6vw;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background:var(--pine);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.confirm-card{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>max-width:560px; width:100%;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background:var(--paper);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius:26px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding:48px 44px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>text-align:center;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.confirm-card .stamp{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>width:56px; height:56px; border-radius:50%;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background:var(--mustard);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display:flex; align-items:center; justify-content:center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin:0 auto 22px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.confirm-card .stamp svg{width:28px; height:28px; stroke:var(--pine);}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.confirm-card .eyebrow{justify-content:center;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.confirm-card h2{font-size:1.9rem; margin-bottom:6px;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.confirm-card .sub{opacity:0.7; font-size:0.98rem; margin-bottom:34px;}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.schedule{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display:flex; align-items:center; justify-content:center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>gap:0; margin-bottom:30px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.schedule .point{flex:1; text-align:center;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.schedule .point .label{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size:0.78rem; text-transform:uppercase; letter-spacing:0.06em;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color:var(--rust); font-weight:700; margin-bottom:8px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.schedule .point .time{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-family:'Baloo 2'; font-weight:700; font-size:1.7rem; color:var(--pine);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.schedule .point .day{font-size:0.82rem; opacity:0.6; margin-top:4px;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.schedule .track{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>flex:1.4; position:relative; height:2px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background-image:linear-gradient(to right, var(--line) 0 8px, transparent 8px 16px);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background-size:16px 2px; background-repeat:repeat-x;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin:0 6px; top:-10px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.schedule .track::after{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>content:'🐾'; position:absolute; left:50%; top:-11px; transform:translateX(-50%);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size:0.9rem;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.confirm-details{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>text-align:left;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background:var(--paper-dim);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius:16px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding:20px 24px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin-bottom:30px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.confirm-details .row{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display:flex; justify-content:space-between;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding:9px 0; font-size:0.92rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-bottom:1px solid var(--line);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.confirm-details .row:last-child{border-bottom:none;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.confirm-details .row span:first-child{opacity:0.6;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.confirm-details .row span:last-child{font-weight:600; color:var(--pine);}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.confirm-actions{display:flex; gap:14px; justify-content:center; flex-wrap:wrap;}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* ---------- LOCATION GATE ---------- */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.location-gate{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>max-width:560px; margin:0 auto;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background:var(--paper);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border:1px solid var(--line);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius:22px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding:40px 36px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>text-align:center;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.location-gate .gate-icon{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>width:52px; height:52px; border-radius:50%;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background:var(--pine);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display:flex; align-items:center; justify-content:center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin:0 auto 20px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.location-gate .gate-icon svg{width:26px; height:26px; stroke:var(--paper);}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>#gateMessage{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size:1.02rem; line-height:1.6; opacity:0.85; margin:0 0 22px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.postcode-check{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display:flex; gap:10px; align-items:stretch; justify-content:center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>max-width:390px; margin:0 auto;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.postcode-check input{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>min-width:0; flex:1;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding:12px 14px; border-radius:11px; border:1.5px solid var(--line);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-family:'Work Sans', sans-serif; font-size:1rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>text-transform:uppercase; background:var(--paper); color:var(--ink);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.postcode-check input:focus{outline:none; border-color:var(--pine);}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.postcode-check .btn-primary{padding:12px 20px; white-space:nowrap;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.gate-error{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display:none; max-width:390px; margin:14px auto 0;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background:rgba(181,80,47,0.1); border:1.5px solid var(--rust);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color:var(--rust); border-radius:11px; padding:11px 14px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size:0.88rem; font-weight:600; line-height:1.45;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.gate-error.show{display:block;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.service-area-note{margin:15px 0 0; font-size:0.82rem; opacity:0.6;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>@media (max-width:460px){</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.postcode-check{flex-direction:column;}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.postcode-check .btn-primary{justify-content:center;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* ---------- CALENDAR WIDGET ---------- */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.calendar-widget{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border:1.5px solid var(--line);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius:14px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding:16px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background:var(--paper);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.cal-header{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display:flex; align-items:center; justify-content:space-between;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin-bottom:12px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.cal-header span{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-family:'Baloo 2'; font-weight:600; color:var(--pine); font-size:0.98rem;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.cal-header button{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>width:30px; height:30px; border-radius:50%;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border:1.5px solid var(--line); background:var(--paper);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color:var(--pine); font-size:1.1rem; cursor:pointer;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display:flex; align-items:center; justify-content:center;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.cal-header button:hover{border-color:var(--pine);}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.cal-weekdays{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display:grid; grid-template-columns:repeat(7,1fr);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>text-align:center; font-size:0.72rem; font-weight:600;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color:var(--ink); opacity:0.5; margin-bottom:6px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.cal-grid{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display:grid; grid-template-columns:repeat(7,1fr);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>gap:4px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.cal-day{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>aspect-ratio:1; display:flex; align-items:center; justify-content:center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius:9px; font-size:0.88rem; cursor:pointer;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border:1.5px solid transparent;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color:var(--ink);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.cal-day.empty{visibility:hidden; cursor:default;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.cal-day.unavailable{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color:var(--ink); opacity:0.28; cursor:not-allowed;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>text-decoration:line-through;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.cal-day.past{opacity:0.2; cursor:not-allowed; text-decoration:none;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.cal-day.available:hover{border-color:var(--pine);}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.cal-day.selected{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background:var(--pine); color:var(--paper); font-weight:700;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.cal-legend{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display:flex; align-items:center; gap:6px; margin-top:12px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size:0.78rem; opacity:0.7;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.cal-legend .dot{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>width:9px; height:9px; border-radius:50%; display:inline-block; margin-left:6px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.cal-legend .dot:first-child{margin-left:0;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.cal-legend .dot.available{background:var(--pine);}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.cal-legend .dot.unavailable{background:var(--ink); opacity:0.3;}</p>
-<p class="p1">&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p1">&lt;body&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div id="pageHome"&gt;</p>
-<p class="p1">&lt;nav&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="brand"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="brand-mark"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;svg viewBox="0 0 24 24" fill="none"&gt;&lt;path d="M12 15c-2 0-3.5 1.2-3.5 3 0 1 .8 2 1.8 2 .9 0 1.2-.6 1.7-.6s.8.6 1.7.6c1 0 1.8-1 1.8-2 0-1.8-1.5-3-3.5-3z" fill="#F6F1E4"/&gt;&lt;circle cx="7" cy="8" r="1.6" fill="#F6F1E4"/&gt;&lt;circle cx="11" cy="6" r="1.6" fill="#F6F1E4"/&gt;&lt;circle cx="15" cy="6" r="1.6" fill="#F6F1E4"/&gt;&lt;circle cx="19" cy="8" r="1.6" fill="#F6F1E4"/&gt;&lt;/svg&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>Bavly Dog Walking</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="nav-links"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;a class="navlink" href="javascript:void(0)" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'});"&gt;Services&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;a class="navlink" href="javascript:void(0)" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'});"&gt;How it works&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;a class="navlink" href="javascript:void(0)" onclick="document.getElementById('book').scrollIntoView({behavior:'smooth'}); var ob=document.getElementById('ownerName'); if (ob &amp;&amp; ob.offsetParent !== null) ob.focus();"&gt;Book a walk&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;button class="nav-cta" id="navBookBtn" onclick="document.getElementById('book').scrollIntoView({behavior:'smooth'}); var ob=document.getElementById('ownerName'); if (ob &amp;&amp; ob.offsetParent !== null) ob.focus();" style="border:none; cursor:pointer; background:var(--rust); color:var(--paper); padding:9px 20px; border-radius:999px; font-weight:600; font-size:0.9rem; text-decoration:none;"&gt;Book now&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1">&lt;/nav&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;section class="hero"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="hero-route" aria-hidden="true"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;svg viewBox="0 0 400 500"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;path class="route-path" d="M 30 40 C 150 40, 60 160, 200 180 S 340 260, 240 340 S 100 440, 220 470"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;g class="paw" transform="translate(210,175)"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;ellipse cx="0" cy="0" rx="9" ry="7" fill="var(--mustard)"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;circle cx="-9" cy="-9" r="3.4" fill="var(--mustard)"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;circle cx="0" cy="-13" r="3.4" fill="var(--mustard)"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;circle cx="9" cy="-9" r="3.4" fill="var(--mustard)"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/g&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/svg&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="hero-inner"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="eyebrow"&gt;Neighborhood dog walking&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;h1&gt;Your dog's favorite&lt;br&gt;&lt;span&gt;part of the day.&lt;/span&gt;&lt;/h1&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;p class="lede"&gt;Bavly walks dogs like they're his own — steady routes, real updates, and a leash held by someone your dog already trusts. Serving Holland Park, one wag at a time.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="hero-ctas"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;button class="btn-primary" id="heroBookBtn" onclick="document.getElementById('book').scrollIntoView({behavior:'smooth'}); var ob=document.getElementById('ownerName'); if (ob &amp;&amp; ob.offsetParent !== null) ob.focus();" style="border:none; cursor:pointer;"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>Book a walk</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"&gt;&lt;path d="M5 12h14M13 6l6 6-6 6"/&gt;&lt;/svg&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;a class="btn-ghost" href="javascript:void(0)" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'});"&gt;See services&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1">&lt;/section&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="trust"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div&gt;&lt;strong&gt;500+&lt;/strong&gt;&lt;span&gt;walks completed&lt;/span&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div&gt;&lt;strong&gt;4.9★&lt;/strong&gt;&lt;span&gt;average rating&lt;/span&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div&gt;&lt;strong&gt;15 min&lt;/strong&gt;&lt;span&gt;photo update, every walk&lt;/span&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div&gt;&lt;strong&gt;Bonded&lt;/strong&gt;&lt;span&gt;&amp; insured&lt;/span&gt;&lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;section id="services" class="services"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="section-head"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="eyebrow"&gt;Services&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;h2&gt;Pick the pace your dog needs&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;p&gt;Every walk is one-on-one or small-pack, matched to your dog's energy and your schedule.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="card-grid"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="service-card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="icon"&gt;&lt;svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"&gt;&lt;path d="M12 6v6l4 2"/&gt;&lt;circle cx="12" cy="12" r="9"/&gt;&lt;/svg&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;h3&gt;Quick Trot&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="price"&gt;€5 · 20 min&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p&gt;A brisk loop around the block for bathroom breaks and a little stretch — great between meetings.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="service-card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="icon"&gt;&lt;svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"&gt;&lt;path d="M3 12h4l3-8 4 16 3-8h4"/&gt;&lt;/svg&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;h3&gt;Neighborhood Walk&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="price"&gt;€9 · 40 min&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p&gt;The standard: a full sniff-everything route through the neighborhood, water break included.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="service-card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="icon"&gt;&lt;svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"&gt;&lt;path d="M4 4l16 16M20 4L4 20"/&gt;&lt;/svg&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;h3&gt;Adventure Hour&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="price"&gt;€12 · 60 min&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p&gt;For the dogs who need to really run it out — trail or park time for high-energy pups.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="service-card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="icon"&gt;&lt;svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"&gt;&lt;rect x="4" y="4" width="16" height="16" rx="3"/&gt;&lt;/svg&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;h3&gt;Puppy Visit&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="price"&gt;€6 · 25 min&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p&gt;Short, gentle visits with feeding and potty training support for pups still learning the ropes.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1">&lt;/section&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;section id="how"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="section-head"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="eyebrow"&gt;How it works&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;h2&gt;Every walk follows the same trusted route&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;p&gt;The same four steps, every single time — so you always know what's happening with your dog.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="route-steps"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="step"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="num"&gt;1&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;h3&gt;Pickup&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p&gt;Bavly arrives at your door at the scheduled time and greets your dog by name.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="step"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="num"&gt;2&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;h3&gt;The walk&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p&gt;A paced route matched to your dog's fitness, with plenty of sniff stops.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="step"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="num"&gt;3&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;h3&gt;Photo update&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p&gt;You get a photo and a short note mid-walk, so you're never left wondering.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="step"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="num"&gt;4&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;h3&gt;Drop-off&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p&gt;Fresh water, a towel-off if it's muddy, and a recap of the walk left for you.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1">&lt;/section&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;section id="book" class="booking"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div id="locationGate" class="location-gate"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="gate-icon"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"&gt;&lt;path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/&gt;&lt;circle cx="12" cy="10" r="2.6"/&gt;&lt;/svg&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;h2 style="font-size:1.65rem; margin-bottom:8px;"&gt;Is your dog in Holland Park?&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;p id="gateMessage"&gt;Enter the dog’s pickup postcode to check whether it is inside our walking area.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="postcode-check"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;input type="text" id="gatePostcode" autocomplete="postal-code" inputmode="text" maxlength="7" placeholder="1112 AB" aria-label="Pickup postcode" aria-describedby="gateError serviceAreaNote"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;button type="button" id="gateCheckBtn" class="btn-primary"&gt;Check postcode&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="gate-error" id="gateError" role="alert"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;p class="service-area-note" id="serviceAreaNote"&gt;Currently serving the Holland Park neighborhood in Diemen only.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="booking-wrap" id="bookingWrap" style="display:none;"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="section-head" style="margin-bottom:0;"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="eyebrow"&gt;Book a walk&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;h2&gt;Tell us about your dog&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;p&gt;Fill this out and Bavly will confirm your first walk within a few hours.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="booking-note"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;strong&gt;First walk is a meet &amp; greet&lt;/strong&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;p&gt;Bavly stops by 10 minutes early on your first booking so your dog can get comfortable before the leash goes on.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;form id="bookingForm" novalidate&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="form-row"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="field"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;label for="ownerName"&gt;Your name&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="text" id="ownerName" required placeholder="Jordan Lee"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="field"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;label for="dogName"&gt;Dog's name&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="text" id="dogName" required placeholder="Biscuit"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="field"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label&gt;Dog size&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="size-toggle"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="radio" name="size" id="sizeSmall" value="Small" checked&gt;&lt;label for="sizeSmall"&gt;Small&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="radio" name="size" id="sizeMed" value="Medium"&gt;&lt;label for="sizeMed"&gt;Medium&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="radio" name="size" id="sizeLarge" value="Large"&gt;&lt;label for="sizeLarge"&gt;Large&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="form-row"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="field"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;label for="serviceChoice"&gt;Service&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;select id="serviceChoice" required&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;option value="quick-trot"&gt;Quick Trot · 20 min · €5&lt;/option&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;option value="puppy-visit"&gt;Puppy Visit · 25 min · €6&lt;/option&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;option value="neighborhood-walk" selected&gt;Neighborhood Walk · 40 min · €9&lt;/option&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;option value="adventure-hour"&gt;Adventure Hour · 60 min · €12&lt;/option&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/select&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="field"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;label for="pickupPostcode"&gt;Dog’s pickup postcode&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="text" id="pickupPostcode" required autocomplete="postal-code" inputmode="text" maxlength="7" placeholder="1112 AB"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="field"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label&gt;Pick a date&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="calendar-widget"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="cal-header"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;button type="button" id="calPrev" aria-label="Previous month"&gt;‹&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;span id="calMonthLabel"&gt;July 2026&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;button type="button" id="calNext" aria-label="Next month"&gt;›&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="cal-weekdays"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;span&gt;Su&lt;/span&gt;&lt;span&gt;Mo&lt;/span&gt;&lt;span&gt;Tu&lt;/span&gt;&lt;span&gt;We&lt;/span&gt;&lt;span&gt;Th&lt;/span&gt;&lt;span&gt;Fr&lt;/span&gt;&lt;span&gt;Sa&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="cal-grid" id="calGrid"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="cal-legend"&gt;&lt;span class="dot available"&gt;&lt;/span&gt; Available &lt;span class="dot unavailable"&gt;&lt;/span&gt; Unavailable&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="hidden" id="date"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="field"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label for="time"&gt;Available time&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;select id="time" disabled&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;option value=""&gt;Pick a date first&lt;/option&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;/select&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="slot-error" id="slotError"&gt;This time is taken — please pick another time.&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;button type="submit" class="submit-btn" id="submitBtn"&gt;Request this walk&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/form&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1">&lt;/section&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;footer&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="brand"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="brand-mark"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;svg viewBox="0 0 24 24" fill="none"&gt;&lt;circle cx="7" cy="8" r="1.6" fill="#F6F1E4"/&gt;&lt;circle cx="11" cy="6" r="1.6" fill="#F6F1E4"/&gt;&lt;circle cx="15" cy="6" r="1.6" fill="#F6F1E4"/&gt;&lt;circle cx="19" cy="8" r="1.6" fill="#F6F1E4"/&gt;&lt;path d="M12 15c-2 0-3.5 1.2-3.5 3 0 1 .8 2 1.8 2 .9 0 1.2-.6 1.7-.6s.8.6 1.7.6c1 0 1.8-1 1.8-2 0-1.8-1.5-3-3.5-3z" fill="#F6F1E4"/&gt;&lt;/svg&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>Bavly Dog Walking</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="foot-links"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;a href="javascript:void(0)" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'});"&gt;Services&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;a href="javascript:void(0)" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'});"&gt;How it works&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;a href="javascript:void(0)" onclick="document.getElementById('book').scrollIntoView({behavior:'smooth'}); var ob=document.getElementById('ownerName'); if (ob &amp;&amp; ob.offsetParent !== null) ob.focus();"&gt;Book a walk&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="copy"&gt;© 2026 Bavly Dog Walking. Every walk, the same trusted route.&lt;/div&gt;</p>
-<p class="p1">&lt;/footer&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div id="pageConfirm"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="confirm-page"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="confirm-card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="stamp"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"&gt;&lt;path d="M5 12l4 4L19 6"/&gt;&lt;/svg&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="eyebrow" style="justify-content:center;"&gt;Walk requested&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;h2 id="confirmDogLine"&gt;Biscuit's walk is booked&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="sub" id="confirmDateLine"&gt;Saturday, July 25&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="schedule"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="point"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="label"&gt;Pickup&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="time" id="pickupTime"&gt;9:00 AM&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="track"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="point"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="label"&gt;Drop-off&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="time" id="dropoffTime"&gt;9:40 AM&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="confirm-details"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;&lt;span&gt;Service&lt;/span&gt;&lt;span id="detailService"&gt;Neighborhood Walk&lt;/span&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;&lt;span&gt;Walk length&lt;/span&gt;&lt;span id="detailDuration"&gt;40 minutes&lt;/span&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;&lt;span&gt;Price&lt;/span&gt;&lt;span id="detailPrice"&gt;€9&lt;/span&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;&lt;span&gt;Pickup area&lt;/span&gt;&lt;span id="detailNeighborhood"&gt;Holland Park, Diemen&lt;/span&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;&lt;span&gt;Pickup postcode&lt;/span&gt;&lt;span id="detailPostcode"&gt;—&lt;/span&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;&lt;span&gt;Booked for&lt;/span&gt;&lt;span id="detailOwner"&gt;—&lt;/span&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="confirm-actions"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;button class="btn-primary" style="border:none;" id="bookAnotherBtn"&gt;Book another walk&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>var SERVICES = {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>'quick-trot': { name: 'Quick Trot', duration: 20, price: 5 },</p>
-<p class="p1"><span class="Apple-converted-space">    </span>'puppy-visit': { name: 'Puppy Visit', duration: 25, price: 6 },</p>
-<p class="p1"><span class="Apple-converted-space">    </span>'neighborhood-walk': { name: 'Neighborhood Walk', duration: 40, price: 9 },</p>
-<p class="p1"><span class="Apple-converted-space">    </span>'adventure-hour': { name: 'Adventure Hour', duration: 60, price: 12 }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>};</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>// Full postcodes belonging to the Holland Park neighborhood in Diemen.</p>
-<p class="p1"><span class="Apple-converted-space">  </span>var ALLOWED_POSTCODES = [</p>
-<p class="p1"><span class="Apple-converted-space">    </span>'1112WT', '1112WW', '1112WX', '1112WZ',</p>
-<p class="p1"><span class="Apple-converted-space">    </span>'1112ZA', '1112ZB', '1112ZC', '1112ZD', '1112ZE',</p>
-<p class="p1"><span class="Apple-converted-space">    </span>'1112ZG', '1112ZH', '1112ZJ', '1112ZK', '1112ZL'</p>
-<p class="p1"><span class="Apple-converted-space">  </span>];</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>function normalizePostcode(value){</p>
-<p class="p1"><span class="Apple-converted-space">    </span>return value.toUpperCase().replace(/\s+/g, '');</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>function formatPostcode(value){</p>
-<p class="p1"><span class="Apple-converted-space">    </span>var normalized = normalizePostcode(value);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>return normalized.length === 6 ? normalized.slice(0, 4) + ' ' + normalized.slice(4) : value.trim().toUpperCase();</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>function isValidDutchPostcode(value){</p>
-<p class="p1"><span class="Apple-converted-space">    </span>return /^[1-9][0-9]{3}[A-Z]{2}$/.test(normalizePostcode(value));</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>function isAllowedPostcode(value){</p>
-<p class="p1"><span class="Apple-converted-space">    </span>return ALLOWED_POSTCODES.indexOf(normalizePostcode(value)) !== -1;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>function to12Hour(hours, minutes){</p>
-<p class="p1"><span class="Apple-converted-space">    </span>var period = hours &gt;= 12 ? 'PM' : 'AM';</p>
-<p class="p1"><span class="Apple-converted-space">    </span>var h = hours % 12;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>if (h === 0) h = 12;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>var m = minutes &lt; 10 ? '0' + minutes : minutes;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>return h + ':' + m + ' ' + period;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>function formatDateLong(dateStr){</p>
-<p class="p1"><span class="Apple-converted-space">    </span>var parts = dateStr.split('-');</p>
-<p class="p1"><span class="Apple-converted-space">    </span>var d = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));</p>
-<p class="p1"><span class="Apple-converted-space">    </span>return d.toLocaleDateString(undefined, { weekday:'long', month:'long', day:'numeric' });</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>var memoryBookings = {}; // fallback used only if platform storage is unavailable</p>
-<p class="p1"><span class="Apple-converted-space">  </span>var storageAvailable = (typeof window.storage !== 'undefined' &amp;&amp; window.storage !== null);</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>async function getBookingsForDate(dateStr){</p>
-<p class="p1"><span class="Apple-converted-space">    </span>if (storageAvailable){</p>
-<p class="p1"><span class="Apple-converted-space">      </span>try {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>var result = await window.storage.get('bookings:' + dateStr, true);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>return result ? JSON.parse(result.value) : [];</p>
-<p class="p1"><span class="Apple-converted-space">      </span>} catch (err) {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>// no bookings saved yet for this date</p>
-<p class="p1"><span class="Apple-converted-space">        </span>return [];</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>return memoryBookings[dateStr] ? memoryBookings[dateStr].slice() : [];</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>async function saveBooking(dateStr, booking){</p>
-<p class="p1"><span class="Apple-converted-space">    </span>var existing = await getBookingsForDate(dateStr);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>existing.push(booking);</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>if (storageAvailable){</p>
-<p class="p1"><span class="Apple-converted-space">      </span>try {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>var result = await window.storage.set('bookings:' + dateStr, JSON.stringify(existing), true);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>return !!result;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>} catch (err) {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>console.error('Platform storage failed, falling back to in-memory:', err);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>storageAvailable = false; // stop retrying platform storage this session</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>memoryBookings[dateStr] = existing;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>return true;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>function overlaps(aStart, aEnd, bStart, bEnd){</p>
-<p class="p1"><span class="Apple-converted-space">    </span>return aStart &lt; bEnd &amp;&amp; aEnd &gt; bStart;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('bookingForm').addEventListener('submit', async function(e){</p>
-<p class="p1"><span class="Apple-converted-space">    </span>e.preventDefault();</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>var errorBox = document.getElementById('slotError');</p>
-<p class="p1"><span class="Apple-converted-space">    </span>var submitBtn = document.getElementById('submitBtn');</p>
-<p class="p1"><span class="Apple-converted-space">    </span>errorBox.classList.remove('show');</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>var ownerName = document.getElementById('ownerName').value.trim();</p>
-<p class="p1"><span class="Apple-converted-space">    </span>var dogName = document.getElementById('dogName').value.trim();</p>
-<p class="p1"><span class="Apple-converted-space">    </span>var serviceId = document.getElementById('serviceChoice').value;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>var service = SERVICES[serviceId];</p>
-<p class="p1"><span class="Apple-converted-space">    </span>var pickupPostcode = document.getElementById('pickupPostcode').value.trim();</p>
-<p class="p1"><span class="Apple-converted-space">    </span>var dateStr = document.getElementById('date').value;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>var timeStr = document.getElementById('time').value;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>if (!ownerName || !dogName || !service || !pickupPostcode || !dateStr || !timeStr){</p>
-<p class="p1"><span class="Apple-converted-space">      </span>errorBox.textContent = 'Please fill in your name, your dog\'s name, the pickup postcode, the date, and the time before requesting a walk.';</p>
-<p class="p1"><span class="Apple-converted-space">      </span>errorBox.classList.add('show');</p>
-<p class="p1"><span class="Apple-converted-space">      </span>return;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>if (!isValidDutchPostcode(pickupPostcode)){</p>
-<p class="p1"><span class="Apple-converted-space">      </span>errorBox.textContent = 'Enter a valid Dutch postcode, for example 1112 AB.';</p>
-<p class="p1"><span class="Apple-converted-space">      </span>errorBox.classList.add('show');</p>
-<p class="p1"><span class="Apple-converted-space">      </span>return;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>if (!isAllowedPostcode(pickupPostcode)){</p>
-<p class="p1"><span class="Apple-converted-space">      </span>errorBox.textContent = 'That pickup postcode is outside Bavly\'s Holland Park walking area.';</p>
-<p class="p1"><span class="Apple-converted-space">      </span>errorBox.classList.add('show');</p>
-<p class="p1"><span class="Apple-converted-space">      </span>return;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>pickupPostcode = formatPostcode(pickupPostcode);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('pickupPostcode').value = pickupPostcode;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>verifiedPostcode = pickupPostcode;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>var duration = service.duration;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>var timeParts = timeStr.split(':');</p>
-<p class="p1"><span class="Apple-converted-space">    </span>var startMinutes = parseInt(timeParts[0]) * 60 + parseInt(timeParts[1]);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>var endMinutes = startMinutes + duration;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>submitBtn.disabled = true;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>submitBtn.textContent = 'Checking availability…';</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>var existingBookings = await getBookingsForDate(dateStr);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>var conflict = existingBookings.some(function(b){</p>
-<p class="p1"><span class="Apple-converted-space">      </span>return overlaps(startMinutes, endMinutes, b.start, b.end);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>});</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>if (conflict){</p>
-<p class="p1"><span class="Apple-converted-space">      </span>submitBtn.disabled = false;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>submitBtn.textContent = 'Request this walk';</p>
-<p class="p1"><span class="Apple-converted-space">      </span>errorBox.textContent = 'This time is taken — please pick another time.';</p>
-<p class="p1"><span class="Apple-converted-space">      </span>errorBox.classList.add('show');</p>
-<p class="p1"><span class="Apple-converted-space">      </span>return;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>var saved = await saveBooking(dateStr, {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>start: startMinutes,</p>
-<p class="p1"><span class="Apple-converted-space">      </span>end: endMinutes,</p>
-<p class="p1"><span class="Apple-converted-space">      </span>dogName: dogName,</p>
-<p class="p1"><span class="Apple-converted-space">      </span>duration: duration,</p>
-<p class="p1"><span class="Apple-converted-space">      </span>serviceId: serviceId,</p>
-<p class="p1"><span class="Apple-converted-space">      </span>price: service.price,</p>
-<p class="p1"><span class="Apple-converted-space">      </span>pickupPostcode: pickupPostcode</p>
-<p class="p1"><span class="Apple-converted-space">    </span>});</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>submitBtn.disabled = false;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>submitBtn.textContent = 'Request this walk';</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>if (!saved){</p>
-<p class="p1"><span class="Apple-converted-space">      </span>errorBox.textContent = "Something went wrong saving your booking — please try again.";</p>
-<p class="p1"><span class="Apple-converted-space">      </span>errorBox.classList.add('show');</p>
-<p class="p1"><span class="Apple-converted-space">      </span>return;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>var pickupH = Math.floor(startMinutes / 60);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>var pickupM = startMinutes % 60;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>var dropH = Math.floor(endMinutes / 60);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>var dropM = endMinutes % 60;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('confirmDogLine').textContent = dogName + "'s walk is booked";</p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('confirmDateLine').textContent = formatDateLong(dateStr);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('pickupTime').textContent = to12Hour(pickupH, pickupM);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('dropoffTime').textContent = to12Hour(dropH, dropM);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('detailService').textContent = service.name;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('detailDuration').textContent = duration + ' minutes';</p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('detailPrice').textContent = '€' + service.price;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('detailNeighborhood').textContent = 'Holland Park, Diemen';</p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('detailPostcode').textContent = pickupPostcode;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('detailOwner').textContent = ownerName;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('pageHome').style.display = 'none';</p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('pageConfirm').style.display = 'block';</p>
-<p class="p1"><span class="Apple-converted-space">    </span>window.scrollTo(0,0);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>});</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('bookAnotherBtn').addEventListener('click', function(){</p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('pageConfirm').style.display = 'none';</p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('pageHome').style.display = 'block';</p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('bookingForm').reset();</p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('pickupPostcode').value = verifiedPostcode;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('slotError').classList.remove('show');</p>
-<p class="p1"><span class="Apple-converted-space">    </span>selectedDateStr = '';</p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('date').value = '';</p>
-<p class="p1"><span class="Apple-converted-space">    </span>var prevSelected = document.querySelector('.cal-day.selected');</p>
-<p class="p1"><span class="Apple-converted-space">    </span>if (prevSelected) prevSelected.classList.remove('selected');</p>
-<p class="p1"><span class="Apple-converted-space">    </span>generateTimeSlots();</p>
-<p class="p1"><span class="Apple-converted-space">    </span>window.scrollTo(0,0);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>});</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* ---------- PICKUP POSTCODE SERVICE AREA ---------- */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>var verifiedPostcode = '';</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>function showGateError(message){</p>
-<p class="p1"><span class="Apple-converted-space">    </span>var error = document.getElementById('gateError');</p>
-<p class="p1"><span class="Apple-converted-space">    </span>error.textContent = message;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>error.classList.add('show');</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>function clearGateError(){</p>
-<p class="p1"><span class="Apple-converted-space">    </span>var error = document.getElementById('gateError');</p>
-<p class="p1"><span class="Apple-converted-space">    </span>error.textContent = '';</p>
-<p class="p1"><span class="Apple-converted-space">    </span>error.classList.remove('show');</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>function grantBookingAccess(postcode){</p>
-<p class="p1"><span class="Apple-converted-space">    </span>verifiedPostcode = formatPostcode(postcode);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('pickupPostcode').value = verifiedPostcode;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>clearGateError();</p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('locationGate').style.display = 'none';</p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('bookingWrap').style.display = 'grid';</p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('ownerName').focus();</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>function checkPostcodeServiceArea(){</p>
-<p class="p1"><span class="Apple-converted-space">    </span>var postcodeInput = document.getElementById('gatePostcode');</p>
-<p class="p1"><span class="Apple-converted-space">    </span>var postcode = postcodeInput.value;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>clearGateError();</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>if (!isValidDutchPostcode(postcode)){</p>
-<p class="p1"><span class="Apple-converted-space">      </span>showGateError('Enter a valid Dutch postcode, for example 1112 AB.');</p>
-<p class="p1"><span class="Apple-converted-space">      </span>postcodeInput.focus();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>return;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>postcodeInput.value = formatPostcode(postcode);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>if (!isAllowedPostcode(postcode)){</p>
-<p class="p1"><span class="Apple-converted-space">      </span>showGateError('Sorry, that postcode is outside Bavly’s Holland Park walking area.');</p>
-<p class="p1"><span class="Apple-converted-space">      </span>postcodeInput.focus();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>return;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>grantBookingAccess(postcode);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('gateCheckBtn').addEventListener('click', checkPostcodeServiceArea);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('gatePostcode').addEventListener('keydown', function(e){</p>
-<p class="p1"><span class="Apple-converted-space">    </span>if (e.key === 'Enter'){</p>
-<p class="p1"><span class="Apple-converted-space">      </span>e.preventDefault();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>checkPostcodeServiceArea();</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>});</p>
-<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('gatePostcode').addEventListener('input', clearGateError);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('gatePostcode').addEventListener('blur', function(){</p>
-<p class="p1"><span class="Apple-converted-space">    </span>if (isValidDutchPostcode(this.value)) this.value = formatPostcode(this.value);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>});</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* ---------- CALENDAR &amp; AVAILABILITY ---------- */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>// Bavly is available Monday, Wednesday, and Friday, 4:30–7:00 PM.</p>
-<p class="p1"><span class="Apple-converted-space">  </span>var AVAILABLE_WEEKDAYS = [1, 3, 5]; // 0=Sun ... 6=Sat — Mon, Wed, Fri only</p>
-<p class="p1"><span class="Apple-converted-space">  </span>var DAY_START_MIN = 16 * 60 + 30; // 4:30 PM</p>
-<p class="p1"><span class="Apple-converted-space">  </span>var DAY_END_MIN = 19 * 60;<span class="Apple-converted-space">        </span>// 7:00 PM</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>var calViewDate = new Date();</p>
-<p class="p1"><span class="Apple-converted-space">  </span>calViewDate.setDate(1);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>var selectedDateStr = '';</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>function isPastDate(y, m, d){</p>
-<p class="p1"><span class="Apple-converted-space">    </span>var today = new Date();</p>
-<p class="p1"><span class="Apple-converted-space">    </span>today.setHours(0,0,0,0);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>return new Date(y, m, d) &lt; today;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>function toISODate(y, m, d){</p>
-<p class="p1"><span class="Apple-converted-space">    </span>var mm = (m + 1) &lt; 10 ? '0' + (m + 1) : (m + 1);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>var dd = d &lt; 10 ? '0' + d : d;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>return y + '-' + mm + '-' + dd;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>function renderCalendar(){</p>
-<p class="p1"><span class="Apple-converted-space">    </span>var y = calViewDate.getFullYear();</p>
-<p class="p1"><span class="Apple-converted-space">    </span>var m = calViewDate.getMonth();</p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('calMonthLabel').textContent =</p>
-<p class="p1"><span class="Apple-converted-space">      </span>calViewDate.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>var grid = document.getElementById('calGrid');</p>
-<p class="p1"><span class="Apple-converted-space">    </span>grid.innerHTML = '';</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>var firstWeekday = new Date(y, m, 1).getDay();</p>
-<p class="p1"><span class="Apple-converted-space">    </span>var daysInMonth = new Date(y, m + 1, 0).getDate();</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>for (var i = 0; i &lt; firstWeekday; i++){</p>
-<p class="p1"><span class="Apple-converted-space">      </span>var empty = document.createElement('div');</p>
-<p class="p1"><span class="Apple-converted-space">      </span>empty.className = 'cal-day empty';</p>
-<p class="p1"><span class="Apple-converted-space">      </span>grid.appendChild(empty);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>for (var d = 1; d &lt;= daysInMonth; d++){</p>
-<p class="p1"><span class="Apple-converted-space">      </span>var cell = document.createElement('div');</p>
-<p class="p1"><span class="Apple-converted-space">      </span>cell.className = 'cal-day';</p>
-<p class="p1"><span class="Apple-converted-space">      </span>cell.textContent = d;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>var weekday = new Date(y, m, d).getDay();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>var iso = toISODate(y, m, d);</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>if (isPastDate(y, m, d)){</p>
-<p class="p1"><span class="Apple-converted-space">        </span>cell.classList.add('past');</p>
-<p class="p1"><span class="Apple-converted-space">      </span>} else if (AVAILABLE_WEEKDAYS.indexOf(weekday) === -1){</p>
-<p class="p1"><span class="Apple-converted-space">        </span>cell.classList.add('unavailable');</p>
-<p class="p1"><span class="Apple-converted-space">      </span>} else {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>cell.classList.add('available');</p>
-<p class="p1"><span class="Apple-converted-space">        </span>cell.addEventListener('click', (function(iso, cell){</p>
-<p class="p1"><span class="Apple-converted-space">          </span>return function(){</p>
-<p class="p1"><span class="Apple-converted-space">            </span>var prevSelected = document.querySelector('.cal-day.selected');</p>
-<p class="p1"><span class="Apple-converted-space">            </span>if (prevSelected) prevSelected.classList.remove('selected');</p>
-<p class="p1"><span class="Apple-converted-space">            </span>cell.classList.add('selected');</p>
-<p class="p1"><span class="Apple-converted-space">            </span>selectedDateStr = iso;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('date').value = iso;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>generateTimeSlots();</p>
-<p class="p1"><span class="Apple-converted-space">          </span>};</p>
-<p class="p1"><span class="Apple-converted-space">        </span>})(iso, cell));</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>if (iso === selectedDateStr) cell.classList.add('selected');</p>
-<p class="p1"><span class="Apple-converted-space">      </span>grid.appendChild(cell);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('calPrev').addEventListener('click', function(){</p>
-<p class="p1"><span class="Apple-converted-space">    </span>calViewDate.setMonth(calViewDate.getMonth() - 1);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>renderCalendar();</p>
-<p class="p1"><span class="Apple-converted-space">  </span>});</p>
-<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('calNext').addEventListener('click', function(){</p>
-<p class="p1"><span class="Apple-converted-space">    </span>calViewDate.setMonth(calViewDate.getMonth() + 1);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>renderCalendar();</p>
-<p class="p1"><span class="Apple-converted-space">  </span>});</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>function generateTimeSlots(){</p>
-<p class="p1"><span class="Apple-converted-space">    </span>var timeSelect = document.getElementById('time');</p>
-<p class="p1"><span class="Apple-converted-space">    </span>timeSelect.innerHTML = '';</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>if (!selectedDateStr){</p>
-<p class="p1"><span class="Apple-converted-space">      </span>timeSelect.disabled = true;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>timeSelect.innerHTML = '&lt;option value=""&gt;Pick a date first&lt;/option&gt;';</p>
-<p class="p1"><span class="Apple-converted-space">      </span>return;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>var selectedService = SERVICES[document.getElementById('serviceChoice').value];</p>
-<p class="p1"><span class="Apple-converted-space">    </span>var duration = selectedService ? selectedService.duration : 0;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>var lastStart = DAY_END_MIN - duration;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>if (lastStart &lt; DAY_START_MIN){</p>
-<p class="p1"><span class="Apple-converted-space">      </span>timeSelect.disabled = true;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>timeSelect.innerHTML = '&lt;option value=""&gt;No slots long enough that day&lt;/option&gt;';</p>
-<p class="p1"><span class="Apple-converted-space">      </span>return;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>timeSelect.disabled = false;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>var options = '&lt;option value=""&gt;Choose a time&lt;/option&gt;';</p>
-<p class="p1"><span class="Apple-converted-space">    </span>for (var mins = DAY_START_MIN; mins &lt;= lastStart; mins += 15){</p>
-<p class="p1"><span class="Apple-converted-space">      </span>var h = Math.floor(mins / 60);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>var mm = mins % 60;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>var value = (h &lt; 10 ? '0' + h : h) + ':' + (mm &lt; 10 ? '0' + mm : mm);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>options += '&lt;option value="' + value + '"&gt;' + to12Hour(h, mm) + '&lt;/option&gt;';</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>timeSelect.innerHTML = options;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('serviceChoice').addEventListener('change', function(){</p>
-<p class="p1"><span class="Apple-converted-space">    </span>generateTimeSlots();</p>
-<p class="p1"><span class="Apple-converted-space">  </span>});</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>renderCalendar();</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;/script&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+
+<div id="pageHome">
+<nav>
+  <div class="brand">
+    <div class="brand-mark">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M12 15c-2 0-3.5 1.2-3.5 3 0 1 .8 2 1.8 2 .9 0 1.2-.6 1.7-.6s.8.6 1.7.6c1 0 1.8-1 1.8-2 0-1.8-1.5-3-3.5-3z" fill="#F6F1E4"/><circle cx="7" cy="8" r="1.6" fill="#F6F1E4"/><circle cx="11" cy="6" r="1.6" fill="#F6F1E4"/><circle cx="15" cy="6" r="1.6" fill="#F6F1E4"/><circle cx="19" cy="8" r="1.6" fill="#F6F1E4"/></svg>
+    </div>
+    Bavly Dog Walking
+  </div>
+  <div class="nav-links">
+    <a class="navlink" href="javascript:void(0)" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'});">Services</a>
+    <a class="navlink" href="javascript:void(0)" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'});">How it works</a>
+    <a class="navlink" href="javascript:void(0)" onclick="document.getElementById('book').scrollIntoView({behavior:'smooth'}); var ob=document.getElementById('ownerName'); if (ob && ob.offsetParent !== null) ob.focus();">Book a walk</a>
+    <button class="nav-cta" id="navBookBtn" onclick="document.getElementById('book').scrollIntoView({behavior:'smooth'}); var ob=document.getElementById('ownerName'); if (ob && ob.offsetParent !== null) ob.focus();" style="border:none; cursor:pointer; background:var(--rust); color:var(--paper); padding:9px 20px; border-radius:999px; font-weight:600; font-size:0.9rem; text-decoration:none;">Book now</button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-route" aria-hidden="true">
+    <svg viewBox="0 0 400 500">
+      <path class="route-path" d="M 30 40 C 150 40, 60 160, 200 180 S 340 260, 240 340 S 100 440, 220 470"/>
+      <g class="paw" transform="translate(210,175)">
+        <ellipse cx="0" cy="0" rx="9" ry="7" fill="var(--mustard)"/>
+        <circle cx="-9" cy="-9" r="3.4" fill="var(--mustard)"/>
+        <circle cx="0" cy="-13" r="3.4" fill="var(--mustard)"/>
+        <circle cx="9" cy="-9" r="3.4" fill="var(--mustard)"/>
+      </g>
+    </svg>
+  </div>
+  <div class="hero-inner">
+    <div class="eyebrow">Neighborhood dog walking</div>
+    <h1>Your dog's favorite<br><span>part of the day.</span></h1>
+    <p class="lede">Bavly walks dogs like they're his own — steady routes, real updates, and a leash held by someone your dog already trusts. Serving Holland Park, one wag at a time.</p>
+    <div class="hero-ctas">
+      <button class="btn-primary" id="heroBookBtn" onclick="document.getElementById('book').scrollIntoView({behavior:'smooth'}); var ob=document.getElementById('ownerName'); if (ob && ob.offsetParent !== null) ob.focus();" style="border:none; cursor:pointer;">
+        Book a walk
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+      <a class="btn-ghost" href="javascript:void(0)" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'});">See services</a>
+    </div>
+  </div>
+</section>
+
+<div class="trust">
+  <div><strong>500+</strong><span>walks completed</span></div>
+  <div><strong>4.9★</strong><span>average rating</span></div>
+  <div><strong>15 min</strong><span>photo update, every walk</span></div>
+  <div><strong>Bonded</strong><span>& insured</span></div>
+</div>
+
+<section id="services" class="services">
+  <div class="section-head">
+    <div class="eyebrow">Services</div>
+    <h2>Pick the pace your dog needs</h2>
+    <p>Every walk is one-on-one or small-pack, matched to your dog's energy and your schedule.</p>
+  </div>
+  <div class="card-grid">
+    <div class="service-card">
+      <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="9"/></svg></div>
+      <h3>Quick Trot</h3>
+      <div class="price">€5 · 20 min</div>
+      <p>A brisk loop around the block for bathroom breaks and a little stretch — great between meetings.</p>
+    </div>
+    <div class="service-card">
+      <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg></div>
+      <h3>Neighborhood Walk</h3>
+      <div class="price">€9 · 40 min</div>
+      <p>The standard: a full sniff-everything route through the neighborhood, water break included.</p>
+    </div>
+    <div class="service-card">
+      <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M4 4l16 16M20 4L4 20"/></svg></div>
+      <h3>Adventure Hour</h3>
+      <div class="price">€12 · 60 min</div>
+      <p>For the dogs who need to really run it out — trail or park time for high-energy pups.</p>
+    </div>
+    <div class="service-card">
+      <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><rect x="4" y="4" width="16" height="16" rx="3"/></svg></div>
+      <h3>Puppy Visit</h3>
+      <div class="price">€6 · 25 min</div>
+      <p>Short, gentle visits with feeding and potty training support for pups still learning the ropes.</p>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="section-head">
+    <div class="eyebrow">How it works</div>
+    <h2>Every walk follows the same trusted route</h2>
+    <p>The same four steps, every single time — so you always know what's happening with your dog.</p>
+  </div>
+  <div class="route-steps">
+    <div class="step">
+      <div class="num">1</div>
+      <h3>Pickup</h3>
+      <p>Bavly arrives at your door at the scheduled time and greets your dog by name.</p>
+    </div>
+    <div class="step">
+      <div class="num">2</div>
+      <h3>The walk</h3>
+      <p>A paced route matched to your dog's fitness, with plenty of sniff stops.</p>
+    </div>
+    <div class="step">
+      <div class="num">3</div>
+      <h3>Photo update</h3>
+      <p>You get a photo and a short note mid-walk, so you're never left wondering.</p>
+    </div>
+    <div class="step">
+      <div class="num">4</div>
+      <h3>Drop-off</h3>
+      <p>Fresh water, a towel-off if it's muddy, and a recap of the walk left for you.</p>
+    </div>
+  </div>
+</section>
+
+<section id="book" class="booking">
+  <div id="locationGate" class="location-gate">
+    <div class="gate-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>
+    </div>
+    <h2 style="font-size:1.65rem; margin-bottom:8px;">Is your dog in Holland Park?</h2>
+    <p id="gateMessage">Enter the dog’s pickup postcode to check whether it is inside our walking area.</p>
+    <div class="postcode-check">
+      <input type="text" id="gatePostcode" autocomplete="postal-code" inputmode="text" maxlength="7" placeholder="1112 AB" aria-label="Pickup postcode" aria-describedby="gateError serviceAreaNote">
+      <button type="button" id="gateCheckBtn" class="btn-primary">Check postcode</button>
+    </div>
+    <div class="gate-error" id="gateError" role="alert"></div>
+    <p class="service-area-note" id="serviceAreaNote">Currently serving the Holland Park neighborhood in Diemen only.</p>
+  </div>
+  <div class="booking-wrap" id="bookingWrap" style="display:none;">
+    <div>
+      <div class="section-head" style="margin-bottom:0;">
+        <div class="eyebrow">Book a walk</div>
+        <h2>Tell us about your dog</h2>
+        <p>Fill this out and Bavly will confirm your first walk within a few hours.</p>
+      </div>
+      <div class="booking-note">
+        <strong>First walk is a meet & greet</strong>
+        <p>Bavly stops by 10 minutes early on your first booking so your dog can get comfortable before the leash goes on.</p>
+      </div>
+    </div>
+
+    <div>
+      <form id="bookingForm" novalidate>
+
+        <div class="form-row">
+          <div class="field">
+            <label for="ownerName">Your name</label>
+            <input type="text" id="ownerName" required placeholder="Jordan Lee">
+          </div>
+          <div class="field">
+            <label for="dogName">Dog's name</label>
+            <input type="text" id="dogName" required placeholder="Biscuit">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Dog size</label>
+          <div class="size-toggle">
+            <input type="radio" name="size" id="sizeSmall" value="Small" checked><label for="sizeSmall">Small</label>
+            <input type="radio" name="size" id="sizeMed" value="Medium"><label for="sizeMed">Medium</label>
+            <input type="radio" name="size" id="sizeLarge" value="Large"><label for="sizeLarge">Large</label>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="field">
+            <label for="serviceChoice">Service</label>
+            <select id="serviceChoice" required>
+              <option value="quick-trot">Quick Trot · 20 min · €5</option>
+              <option value="puppy-visit">Puppy Visit · 25 min · €6</option>
+              <option value="neighborhood-walk" selected>Neighborhood Walk · 40 min · €9</option>
+              <option value="adventure-hour">Adventure Hour · 60 min · €12</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="pickupPostcode">Dog’s pickup postcode</label>
+            <input type="text" id="pickupPostcode" required autocomplete="postal-code" inputmode="text" maxlength="7" placeholder="1112 AB">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Pick a date</label>
+          <div class="calendar-widget">
+            <div class="cal-header">
+              <button type="button" id="calPrev" aria-label="Previous month">‹</button>
+              <span id="calMonthLabel">July 2026</span>
+              <button type="button" id="calNext" aria-label="Next month">›</button>
+            </div>
+            <div class="cal-weekdays">
+              <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+            </div>
+            <div class="cal-grid" id="calGrid"></div>
+            <div class="cal-legend"><span class="dot available"></span> Available <span class="dot unavailable"></span> Unavailable</div>
+          </div>
+          <input type="hidden" id="date">
+        </div>
+
+        <div class="field">
+          <label for="time">Available time</label>
+          <select id="time" disabled>
+            <option value="">Pick a date first</option>
+          </select>
+        </div>
+
+        <div class="slot-error" id="slotError">This time is taken — please pick another time.</div>
+        <button type="submit" class="submit-btn" id="submitBtn">Request this walk</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="brand">
+    <div class="brand-mark">
+      <svg viewBox="0 0 24 24" fill="none"><circle cx="7" cy="8" r="1.6" fill="#F6F1E4"/><circle cx="11" cy="6" r="1.6" fill="#F6F1E4"/><circle cx="15" cy="6" r="1.6" fill="#F6F1E4"/><circle cx="19" cy="8" r="1.6" fill="#F6F1E4"/><path d="M12 15c-2 0-3.5 1.2-3.5 3 0 1 .8 2 1.8 2 .9 0 1.2-.6 1.7-.6s.8.6 1.7.6c1 0 1.8-1 1.8-2 0-1.8-1.5-3-3.5-3z" fill="#F6F1E4"/></svg>
+    </div>
+    Bavly Dog Walking
+  </div>
+  <div class="foot-links">
+    <a href="javascript:void(0)" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'});">Services</a>
+    <a href="javascript:void(0)" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'});">How it works</a>
+    <a href="javascript:void(0)" onclick="document.getElementById('book').scrollIntoView({behavior:'smooth'}); var ob=document.getElementById('ownerName'); if (ob && ob.offsetParent !== null) ob.focus();">Book a walk</a>
+  </div>
+  <div class="copy">© 2026 Bavly Dog Walking. Every walk, the same trusted route.</div>
+</footer>
+</div>
+
+<div id="pageConfirm">
+  <div class="confirm-page">
+    <div class="confirm-card">
+      <div class="stamp">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg>
+      </div>
+      <div class="eyebrow" style="justify-content:center;">Walk requested</div>
+      <h2 id="confirmDogLine">Biscuit's walk is booked</h2>
+      <div class="sub" id="confirmDateLine">Saturday, July 25</div>
+
+      <div class="schedule">
+        <div class="point">
+          <div class="label">Pickup</div>
+          <div class="time" id="pickupTime">9:00 AM</div>
+        </div>
+        <div class="track"></div>
+        <div class="point">
+          <div class="label">Drop-off</div>
+          <div class="time" id="dropoffTime">9:40 AM</div>
+        </div>
+      </div>
+
+      <div class="confirm-details">
+        <div class="row"><span>Service</span><span id="detailService">Neighborhood Walk</span></div>
+        <div class="row"><span>Walk length</span><span id="detailDuration">40 minutes</span></div>
+        <div class="row"><span>Price</span><span id="detailPrice">€9</span></div>
+        <div class="row"><span>Pickup area</span><span id="detailNeighborhood">Holland Park, Diemen</span></div>
+        <div class="row"><span>Pickup postcode</span><span id="detailPostcode">—</span></div>
+        <div class="row"><span>Booked for</span><span id="detailOwner">—</span></div>
+      </div>
+
+      <div class="confirm-actions">
+        <button class="btn-primary" style="border:none;" id="bookAnotherBtn">Book another walk</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  var SERVICES = {
+    'quick-trot': { name: 'Quick Trot', duration: 20, price: 5 },
+    'puppy-visit': { name: 'Puppy Visit', duration: 25, price: 6 },
+    'neighborhood-walk': { name: 'Neighborhood Walk', duration: 40, price: 9 },
+    'adventure-hour': { name: 'Adventure Hour', duration: 60, price: 12 }
+  };
+
+  // Full postcodes belonging to the Holland Park neighborhood in Diemen.
+  var ALLOWED_POSTCODES = [
+    '1112WT', '1112WW', '1112WX', '1112WZ',
+    '1112ZA', '1112ZB', '1112ZC', '1112ZD', '1112ZE',
+    '1112ZG', '1112ZH', '1112ZJ', '1112ZK', '1112ZL'
+  ];
+
+  function normalizePostcode(value){
+    return value.toUpperCase().replace(/\s+/g, '');
+  }
+
+  function formatPostcode(value){
+    var normalized = normalizePostcode(value);
+    return normalized.length === 6 ? normalized.slice(0, 4) + ' ' + normalized.slice(4) : value.trim().toUpperCase();
+  }
+
+  function isValidDutchPostcode(value){
+    return /^[1-9][0-9]{3}[A-Z]{2}$/.test(normalizePostcode(value));
+  }
+
+  function isAllowedPostcode(value){
+    return ALLOWED_POSTCODES.indexOf(normalizePostcode(value)) !== -1;
+  }
+
+  function to12Hour(hours, minutes){
+    var period = hours >= 12 ? 'PM' : 'AM';
+    var h = hours % 12;
+    if (h === 0) h = 12;
+    var m = minutes < 10 ? '0' + minutes : minutes;
+    return h + ':' + m + ' ' + period;
+  }
+
+  function formatDateLong(dateStr){
+    var parts = dateStr.split('-');
+    var d = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+    return d.toLocaleDateString(undefined, { weekday:'long', month:'long', day:'numeric' });
+  }
+
+  var memoryBookings = {}; // fallback used only if platform storage is unavailable
+  var storageAvailable = (typeof window.storage !== 'undefined' && window.storage !== null);
+
+  async function getBookingsForDate(dateStr){
+    if (storageAvailable){
+      try {
+        var result = await window.storage.get('bookings:' + dateStr, true);
+        return result ? JSON.parse(result.value) : [];
+      } catch (err) {
+        // no bookings saved yet for this date
+        return [];
+      }
+    }
+    return memoryBookings[dateStr] ? memoryBookings[dateStr].slice() : [];
+  }
+
+  async function saveBooking(dateStr, booking){
+    var existing = await getBookingsForDate(dateStr);
+    existing.push(booking);
+
+    if (storageAvailable){
+      try {
+        var result = await window.storage.set('bookings:' + dateStr, JSON.stringify(existing), true);
+        return !!result;
+      } catch (err) {
+        console.error('Platform storage failed, falling back to in-memory:', err);
+        storageAvailable = false; // stop retrying platform storage this session
+      }
+    }
+    memoryBookings[dateStr] = existing;
+    return true;
+  }
+
+  function overlaps(aStart, aEnd, bStart, bEnd){
+    return aStart < bEnd && aEnd > bStart;
+  }
+
+  document.getElementById('bookingForm').addEventListener('submit', async function(e){
+    e.preventDefault();
+
+    var errorBox = document.getElementById('slotError');
+    var submitBtn = document.getElementById('submitBtn');
+    errorBox.classList.remove('show');
+
+    var ownerName = document.getElementById('ownerName').value.trim();
+    var dogName = document.getElementById('dogName').value.trim();
+    var serviceId = document.getElementById('serviceChoice').value;
+    var service = SERVICES[serviceId];
+    var pickupPostcode = document.getElementById('pickupPostcode').value.trim();
+    var dateStr = document.getElementById('date').value;
+    var timeStr = document.getElementById('time').value;
+
+    if (!ownerName || !dogName || !service || !pickupPostcode || !dateStr || !timeStr){
+      errorBox.textContent = 'Please fill in your name, your dog\'s name, the pickup postcode, the date, and the time before requesting a walk.';
+      errorBox.classList.add('show');
+      return;
+    }
+
+    if (!isValidDutchPostcode(pickupPostcode)){
+      errorBox.textContent = 'Enter a valid Dutch postcode, for example 1112 AB.';
+      errorBox.classList.add('show');
+      return;
+    }
+
+    if (!isAllowedPostcode(pickupPostcode)){
+      errorBox.textContent = 'That pickup postcode is outside Bavly\'s Holland Park walking area.';
+      errorBox.classList.add('show');
+      return;
+    }
+
+    pickupPostcode = formatPostcode(pickupPostcode);
+    document.getElementById('pickupPostcode').value = pickupPostcode;
+    verifiedPostcode = pickupPostcode;
+
+    var duration = service.duration;
+
+    var timeParts = timeStr.split(':');
+    var startMinutes = parseInt(timeParts[0]) * 60 + parseInt(timeParts[1]);
+    var endMinutes = startMinutes + duration;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Checking availability…';
+
+    var existingBookings = await getBookingsForDate(dateStr);
+    var conflict = existingBookings.some(function(b){
+      return overlaps(startMinutes, endMinutes, b.start, b.end);
+    });
+
+    if (conflict){
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Request this walk';
+      errorBox.textContent = 'This time is taken — please pick another time.';
+      errorBox.classList.add('show');
+      return;
+    }
+
+    var saved = await saveBooking(dateStr, {
+      start: startMinutes,
+      end: endMinutes,
+      dogName: dogName,
+      duration: duration,
+      serviceId: serviceId,
+      price: service.price,
+      pickupPostcode: pickupPostcode
+    });
+
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Request this walk';
+
+    if (!saved){
+      errorBox.textContent = "Something went wrong saving your booking — please try again.";
+      errorBox.classList.add('show');
+      return;
+    }
+
+    var pickupH = Math.floor(startMinutes / 60);
+    var pickupM = startMinutes % 60;
+    var dropH = Math.floor(endMinutes / 60);
+    var dropM = endMinutes % 60;
+
+    document.getElementById('confirmDogLine').textContent = dogName + "'s walk is booked";
+    document.getElementById('confirmDateLine').textContent = formatDateLong(dateStr);
+    document.getElementById('pickupTime').textContent = to12Hour(pickupH, pickupM);
+    document.getElementById('dropoffTime').textContent = to12Hour(dropH, dropM);
+    document.getElementById('detailService').textContent = service.name;
+    document.getElementById('detailDuration').textContent = duration + ' minutes';
+    document.getElementById('detailPrice').textContent = '€' + service.price;
+    document.getElementById('detailNeighborhood').textContent = 'Holland Park, Diemen';
+    document.getElementById('detailPostcode').textContent = pickupPostcode;
+    document.getElementById('detailOwner').textContent = ownerName;
+
+    document.getElementById('pageHome').style.display = 'none';
+    document.getElementById('pageConfirm').style.display = 'block';
+    window.scrollTo(0,0);
+  });
+
+  document.getElementById('bookAnotherBtn').addEventListener('click', function(){
+    document.getElementById('pageConfirm').style.display = 'none';
+    document.getElementById('pageHome').style.display = 'block';
+    document.getElementById('bookingForm').reset();
+    document.getElementById('pickupPostcode').value = verifiedPostcode;
+    document.getElementById('slotError').classList.remove('show');
+    selectedDateStr = '';
+    document.getElementById('date').value = '';
+    var prevSelected = document.querySelector('.cal-day.selected');
+    if (prevSelected) prevSelected.classList.remove('selected');
+    generateTimeSlots();
+    window.scrollTo(0,0);
+  });
+
+  /* ---------- PICKUP POSTCODE SERVICE AREA ---------- */
+  var verifiedPostcode = '';
+
+  function showGateError(message){
+    var error = document.getElementById('gateError');
+    error.textContent = message;
+    error.classList.add('show');
+  }
+
+  function clearGateError(){
+    var error = document.getElementById('gateError');
+    error.textContent = '';
+    error.classList.remove('show');
+  }
+
+  function grantBookingAccess(postcode){
+    verifiedPostcode = formatPostcode(postcode);
+    document.getElementById('pickupPostcode').value = verifiedPostcode;
+    clearGateError();
+    document.getElementById('locationGate').style.display = 'none';
+    document.getElementById('bookingWrap').style.display = 'grid';
+    document.getElementById('ownerName').focus();
+  }
+
+  function checkPostcodeServiceArea(){
+    var postcodeInput = document.getElementById('gatePostcode');
+    var postcode = postcodeInput.value;
+    clearGateError();
+
+    if (!isValidDutchPostcode(postcode)){
+      showGateError('Enter a valid Dutch postcode, for example 1112 AB.');
+      postcodeInput.focus();
+      return;
+    }
+
+    postcodeInput.value = formatPostcode(postcode);
+    if (!isAllowedPostcode(postcode)){
+      showGateError('Sorry, that postcode is outside Bavly’s Holland Park walking area.');
+      postcodeInput.focus();
+      return;
+    }
+
+    grantBookingAccess(postcode);
+  }
+
+  document.getElementById('gateCheckBtn').addEventListener('click', checkPostcodeServiceArea);
+  document.getElementById('gatePostcode').addEventListener('keydown', function(e){
+    if (e.key === 'Enter'){
+      e.preventDefault();
+      checkPostcodeServiceArea();
+    }
+  });
+  document.getElementById('gatePostcode').addEventListener('input', clearGateError);
+  document.getElementById('gatePostcode').addEventListener('blur', function(){
+    if (isValidDutchPostcode(this.value)) this.value = formatPostcode(this.value);
+  });
+
+  /* ---------- CALENDAR & AVAILABILITY ---------- */
+  // Bavly is available Monday, Wednesday, and Friday, 4:30–7:00 PM.
+  var AVAILABLE_WEEKDAYS = [1, 3, 5]; // 0=Sun ... 6=Sat — Mon, Wed, Fri only
+  var DAY_START_MIN = 16 * 60 + 30; // 4:30 PM
+  var DAY_END_MIN = 19 * 60;        // 7:00 PM
+
+  var calViewDate = new Date();
+  calViewDate.setDate(1);
+  var selectedDateStr = '';
+
+  function isPastDate(y, m, d){
+    var today = new Date();
+    today.setHours(0,0,0,0);
+    return new Date(y, m, d) < today;
+  }
+
+  function toISODate(y, m, d){
+    var mm = (m + 1) < 10 ? '0' + (m + 1) : (m + 1);
+    var dd = d < 10 ? '0' + d : d;
+    return y + '-' + mm + '-' + dd;
+  }
+
+  function renderCalendar(){
+    var y = calViewDate.getFullYear();
+    var m = calViewDate.getMonth();
+    document.getElementById('calMonthLabel').textContent =
+      calViewDate.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
+
+    var grid = document.getElementById('calGrid');
+    grid.innerHTML = '';
+
+    var firstWeekday = new Date(y, m, 1).getDay();
+    var daysInMonth = new Date(y, m + 1, 0).getDate();
+
+    for (var i = 0; i < firstWeekday; i++){
+      var empty = document.createElement('div');
+      empty.className = 'cal-day empty';
+      grid.appendChild(empty);
+    }
+
+    for (var d = 1; d <= daysInMonth; d++){
+      var cell = document.createElement('div');
+      cell.className = 'cal-day';
+      cell.textContent = d;
+      var weekday = new Date(y, m, d).getDay();
+      var iso = toISODate(y, m, d);
+
+      if (isPastDate(y, m, d)){
+        cell.classList.add('past');
+      } else if (AVAILABLE_WEEKDAYS.indexOf(weekday) === -1){
+        cell.classList.add('unavailable');
+      } else {
+        cell.classList.add('available');
+        cell.addEventListener('click', (function(iso, cell){
+          return function(){
+            var prevSelected = document.querySelector('.cal-day.selected');
+            if (prevSelected) prevSelected.classList.remove('selected');
+            cell.classList.add('selected');
+            selectedDateStr = iso;
+            document.getElementById('date').value = iso;
+            generateTimeSlots();
+          };
+        })(iso, cell));
+      }
+
+      if (iso === selectedDateStr) cell.classList.add('selected');
+      grid.appendChild(cell);
+    }
+  }
+
+  document.getElementById('calPrev').addEventListener('click', function(){
+    calViewDate.setMonth(calViewDate.getMonth() - 1);
+    renderCalendar();
+  });
+  document.getElementById('calNext').addEventListener('click', function(){
+    calViewDate.setMonth(calViewDate.getMonth() + 1);
+    renderCalendar();
+  });
+
+  function generateTimeSlots(){
+    var timeSelect = document.getElementById('time');
+    timeSelect.innerHTML = '';
+
+    if (!selectedDateStr){
+      timeSelect.disabled = true;
+      timeSelect.innerHTML = '<option value="">Pick a date first</option>';
+      return;
+    }
+
+    var selectedService = SERVICES[document.getElementById('serviceChoice').value];
+    var duration = selectedService ? selectedService.duration : 0;
+    var lastStart = DAY_END_MIN - duration;
+
+    if (lastStart < DAY_START_MIN){
+      timeSelect.disabled = true;
+      timeSelect.innerHTML = '<option value="">No slots long enough that day</option>';
+      return;
+    }
+
+    timeSelect.disabled = false;
+    var options = '<option value="">Choose a time</option>';
+    for (var mins = DAY_START_MIN; mins <= lastStart; mins += 15){
+      var h = Math.floor(mins / 60);
+      var mm = mins % 60;
+      var value = (h < 10 ? '0' + h : h) + ':' + (mm < 10 ? '0' + mm : mm);
+      options += '<option value="' + value + '">' + to12Hour(h, mm) + '</option>';
+    }
+    timeSelect.innerHTML = options;
+  }
+
+  document.getElementById('serviceChoice').addEventListener('change', function(){
+    generateTimeSlots();
+  });
+
+  renderCalendar();
+
+</script>
+
 </body>
 </html>
